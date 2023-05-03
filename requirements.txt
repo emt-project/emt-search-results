@@ -1,2 +1,4 @@
 typesense
 pandas
+black
+flake8
