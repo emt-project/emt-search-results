@@ -1,0 +1,27 @@
+name: Bulk search
+
+on:
+  workflow_dispatch:
+
+jobs:
+  search:
+    name: search and store results
+    runs-on: ubuntu-latest
+    env:
+      TYPESENSE_HOST: typesense.acdh-dev.oeaw.ac.at
+      TYPESENSE_PORT: 443
+      TYPESENSE_PROTOCOL: https
+      TYPESENSE_API_KEY: ${{secrets.TYPESENSE_API_KEY}}
+    steps:
+      - name: Perfom Checkout
+        uses: actions/checkout@v3
+      - name: Install Python Packages
+        run: |
+          pip install -r requirements.txt
+      - name: search
+        run: |
+          python main.py
+      - name: Commit data
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: saving search results
